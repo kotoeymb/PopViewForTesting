@@ -138,27 +138,26 @@ protocol SchedulePeriodDelegate {
         
         
         @IBAction func Btn_CloseClick(_ sender: Any) {
+            
               self.dismiss(animated: true, completion: nil)
+            
         }
         
         @IBAction func Btn_DoneClick(_ sender: Any) {
             
-            
-//            period_delegate?.userDidEnterData(data: periodString)
             if (period_delegate != nil)
             {
-                
-                for i in 1...7{
-//                    if(selectedArray[0]==1){
-//                        let str_daylist: String = show_daylist[i]
-//                        temp_arr.append(str_daylist)
-//                    }else{
+                if(selectedArray[0]==1){
+                    temp_arr.append(show_daylist[0])
+                }else{
+                    for i in 1...7{
                     
                         if(selectedArray[i]==1){
                             let str_daylist: String = show_daylist[i]
                             temp_arr.append(str_daylist)
                         }
-//                    }
+                        
+                    }
                 }
                 let periodString = temp_arr.joined(separator: " ")
                 print("\(periodString)")
@@ -170,7 +169,6 @@ protocol SchedulePeriodDelegate {
                     self.dismiss(animated: true, completion: nil)
                 }
             }
-            
-            
         }
+        
 }
