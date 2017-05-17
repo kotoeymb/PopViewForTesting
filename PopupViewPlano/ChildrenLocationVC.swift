@@ -18,7 +18,6 @@ class ChildrenLocationVC: UIViewController{
     var markerLocation : GMSMarker?
     var currentZoom : Float = 0.0
     var mapView = GMSMapView()
-    var cirlce: GMSCircle!
     var locationManager = CLLocationManager()
     var userLatitude = CLLocationDegrees()
     var userLongitude = CLLocationDegrees()
@@ -38,7 +37,7 @@ class ChildrenLocationVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        let latitude : CLLocationDegrees = 16.775552
+//        let latitude : CLLocationDegrees = 16.775552
 //        let longitude : CLLocationDegrees = 96.140380
 
         locationManager.delegate = self
@@ -52,55 +51,45 @@ class ChildrenLocationVC: UIViewController{
 
         self.lblLocation.text = "Please wait while fetching address"
         mapView.delegate = self
-        mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true
-        mapView.settings.compassButton = true
+        mapView.isMyLocationEnabled = true   // for current location enable
+        mapView.settings.myLocationButton = true // current location btn
+        mapView.settings.compassButton = true  // compass
         mapView.isIndoorEnabled = false
 //        self.mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         // [mapView animateToViewingAngle:45];
-        
-        cirlce = GMSCircle(position: mapView.camera.target, radius: 15)
-        cirlce.fillColor = UIColor.red.withAlphaComponent(1)
-        cirlce.map = mapView
-       
-        
         viewGoogleMap.addSubview(mapView)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.0) {
             self.mapView.frame = self.viewGoogleMap.frame
             self.view.layoutIfNeeded()
         }
-        self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
 
-//        UIView.animate(withDuration: 0.0, animations: {
-//            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
-//        })
-//       
+        UIView.animate(withDuration: 0.3, animations: {
+            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
+//             self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-100)
+        })
 //        activitytLocation.startAnimating()
         self.getAddressForMapCenter()
         
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        self.imgPinOverlay.isHidden = true
-        self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
 
-//        UIView.animate(withDuration: 0.0, animations: {
-//            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
-////            self.imgPinOverlay.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y)
-//        })
+        UIView.animate(withDuration: 0.3, animations: {
+            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
+//            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-100)
+        })
+
         
     }
     
     func getAddressForMapCenter() {
         
-        let point : CGPoint = mapView.center
+        let point : CGPoint = mapView.center// CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y)
         let coordinate : CLLocationCoordinate2D = mapView.projection.coordinate(for: point)
         let location =  CLLocation.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
         self.GetAnnotationUsingCoordinated(location)
@@ -195,7 +184,7 @@ class ChildrenLocationVC: UIViewController{
         if markerLocation == nil {
             markerLocation = GMSMarker.init()//GMSMarker.init(position: location.coordinate)
         }
-        //add Marker on google map
+//        add Marker on google map
 //        self.addMarkerOnGoogleMap(title, subTitle: subTitle, location: location)
     }
     
@@ -207,7 +196,6 @@ class ChildrenLocationVC: UIViewController{
         markerLocation?.title  = title
         markerLocation?.snippet = subTitle
         markerLocation?.icon = #imageLiteral(resourceName: "iconPin")
-//        markerLocation?.appearAnimation = .pop
         mapView.clear()
         markerLocation?.map = mapView
     }
@@ -215,25 +203,7 @@ class ChildrenLocationVC: UIViewController{
    // For Button Click Event
     @IBAction func btn350mClick(_ sender: Any) {
         
-//        var imageViewObject :UIImageView
-        
-//        imgPinCenter = UIImageView(frame:CGRect(x:0,y:0,width:100,height:100))
-          imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
-//        imageViewObject.image = UIImage(named:"afternoon")
-        
-//        self.view.addSubview(imageViewObject)
-        
-//        self.view.sendSubview(toBack: imageViewObject)
-        
-//        self.imgPinOverlay.isHidden = false
-//        
-//        self.imgPinCenter.isHidden = true;
-//        imgPinCenter =  UIImageView(image: imgPinOverlay)
-//        UIImageView(image: image)
-//
-//        self.imgPinOverlay.isHidden = false
-//        self.imgPinCenter.isHidden = true;
-//        self.imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
+        imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
         btn350m.backgroundColor = planoColor
         btn350m.setTitleColor(UIColor.white, for: UIControlState.normal)
         
@@ -254,11 +224,18 @@ class ChildrenLocationVC: UIViewController{
         mapView.camera = camera
     }
     
+    @IBAction func btnAutoSearchClick(_ sender: Any) {
+        
+        func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "gSearch" {
+                let sendingVC: AutoCompleteSearchVC = segue.destination as! AutoCompleteSearchVC
+//                sendingVC.period_delegate = self
+            }
+        }
+    }
+    
     @IBAction func btn550mClick(_ sender: Any) {
         imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
-//        self.imgPinCenter.isHidden = true;
-//        self.imgPinOverlay.isHidden = false
-        
         
         btn550m.backgroundColor = planoColor
         btn550m.setTitleColor(UIColor.white, for: UIControlState.normal)
@@ -279,8 +256,6 @@ class ChildrenLocationVC: UIViewController{
     
     @IBAction func btnOneKClick(_ sender: Any) {
         imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
-//        self.imgPinCenter.isHidden = true;
-//        self.imgPinOverlay.isHidden = false
         
         btnOneK.backgroundColor = planoColor
         btnOneK.setTitleColor(UIColor.white, for: UIControlState.normal)
@@ -318,10 +293,7 @@ extension ChildrenLocationVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         //print("didChangeCameraPosition: \(position)")
         mapView.clear()
-        
-        //markerLocation?.map = mapView
-        
-//        self.imgPinCenter.isHidden = false
+//      markerLocation?.map = mapView
          self.getAddressForMapCenter()
 //        activitytLocation.startAnimating()
         
@@ -329,22 +301,26 @@ extension ChildrenLocationVC : GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         
-//        self.imgPinCenter.isHidden = false
         self.getAddressForMapCenter()
 //        reverseGeocodeCoordinate(position.target)
 
     }
     func mapView(mapView: GMSMapView!, didChangeCameraPosition position: GMSCameraPosition!) {
         print("\(position.target.latitude) \(position.target.longitude)")
-        cirlce.position = position.target
+//        cirlce.position = position.target
+        
+        
+        
+//        test(param1: "abc", param2: "def")
+        
+        test("abc", "def")
+        
     }
-
-//    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay)
-//    {
-//       cirlce.position = position.target
-//        print("User Tapped Layer: \(overlay)")
-//    }
-
+    
+    func test(_ param1:String, _ param2:String){
+        
+    }
+    
 
 }
 
@@ -361,24 +337,38 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
             
         }
-        
-
-//         let camera : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: userLatitude, longitude: userLongitude, zoom: currentZoom, bearing: 3, viewingAngle: 0)
-//        mapView = GMSMapView.map(withFrame: viewGoogleMap.frame, camera: camera)
-//        mapView.camera = camera
-////        viewGoogleMap.addSubview(mapView)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0) {
-//            self.mapView.frame = self.viewGoogleMap.frame
-//            self.view.layoutIfNeeded()
-//        }
-//        
-//        UIView.animate(withDuration: 0.1, animations: {
-//            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
-//        })
     }
        // 2
-    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        // 3
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedAlways: break
+        // ...
+        case .notDetermined:
+            manager.requestAlwaysAuthorization()
+        case .authorizedWhenInUse, .restricted, .denied: // authorizedAlways authorizedWhenInUse
+            let alertController = UIAlertController(
+                title: "Background Location Access Disabled",
+                message: "In order to be notified about adorable kittens near you, please open this app's settings and set location access to 'Always'.",
+                preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.openURL(url as URL)
+                }
+            }
+            alertController.addAction(openAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+    }
+
+        
+        /*
         if status == .authorizedWhenInUse {
             
             // 4
@@ -388,10 +378,11 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
             mapView.isMyLocationEnabled = true
             mapView.settings.myLocationButton = true
         }
-    }
+ */
+//    }
     
     // 6
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             
             // 7

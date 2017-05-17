@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		785D3166845532CB1BAAF1EA /* libPods-PopupViewPlano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B0D85BF5722FF70D3647B /* libPods-PopupViewPlano.a */; };
+		B42231841EC9B476000929D3 /* LocationSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = B42231831EC9B476000929D3 /* LocationSearch.png */; };
+		B42231861EC9C3AE000929D3 /* AutoCompleteSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42231851EC9C3AE000929D3 /* AutoCompleteSearchVC.swift */; };
 		B450951F1EBAEA6D00139A2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B450951E1EBAEA6D00139A2D /* AppDelegate.swift */; };
 		B45095211EBAEA6D00139A2D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45095201EBAEA6D00139A2D /* ViewController.swift */; };
 		B45095241EBAEA6D00139A2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B45095221EBAEA6D00139A2D /* Main.storyboard */; };
@@ -52,6 +54,8 @@
 		073B0D85BF5722FF70D3647B /* libPods-PopupViewPlano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PopupViewPlano.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FC87F1F20A97A480D5D50F9 /* Pods-PopupViewPlano.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopupViewPlano.release.xcconfig"; path = "Pods/Target Support Files/Pods-PopupViewPlano/Pods-PopupViewPlano.release.xcconfig"; sourceTree = "<group>"; };
 		9B3A6BD4B65D56807163E8F3 /* Pods-PopupViewPlano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopupViewPlano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PopupViewPlano/Pods-PopupViewPlano.debug.xcconfig"; sourceTree = "<group>"; };
+		B42231831EC9B476000929D3 /* LocationSearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocationSearch.png; sourceTree = "<group>"; };
+		B42231851EC9C3AE000929D3 /* AutoCompleteSearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteSearchVC.swift; sourceTree = "<group>"; };
 		B450951B1EBAEA6D00139A2D /* PopupViewPlano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopupViewPlano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B450951E1EBAEA6D00139A2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B45095201EBAEA6D00139A2D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -146,9 +150,11 @@
 				B450956E1EBC992000139A2D /* PopChildrenProfileVC.swift */,
 				B45095771EBCA7E200139A2D /* PopChildrenProfileCreatedVC.swift */,
 				B47B15AF1EBE50A800D2786D /* ChildrenLocationVC.swift */,
+				B42231851EC9C3AE000929D3 /* AutoCompleteSearchVC.swift */,
 				B4AB5BC71EC328C400922A28 /* StringExtensions.swift */,
 				B4AB5BC91EC4699A00922A28 /* plantoButton.swift */,
 				B4A2E1221EC1D37400F7470B /* OtherLocation.gpx */,
+				B42231831EC9B476000929D3 /* LocationSearch.png */,
 				B45095731EBC9DBE00139A2D /* LOCATION1.png */,
 				B45095751EBC9DFF00139A2D /* PROFILE CREATED.png */,
 				B450956D1EBB227000139A2D /* popTableCell */,
@@ -285,6 +291,7 @@
 				B45095471EBAEB7B00139A2D /* Raleway-ExtraBold.ttf in Resources */,
 				B45095741EBC9DBE00139A2D /* LOCATION1.png in Resources */,
 				B45095521EBAEB7B00139A2D /* Raleway-SemiBoldItalic.ttf in Resources */,
+				B42231841EC9B476000929D3 /* LocationSearch.png in Resources */,
 				B45095761EBC9DFF00139A2D /* PROFILE CREATED.png in Resources */,
 				B450955A1EBAEBB600139A2D /* CHILD PROFILE.png in Resources */,
 				B450955B1EBAEBB600139A2D /* ADD.png in Resources */,
@@ -368,6 +375,7 @@
 			files = (
 				B4AB5BCA1EC4699A00922A28 /* plantoButton.swift in Sources */,
 				B450956F1EBC992000139A2D /* PopChildrenProfileVC.swift in Sources */,
+				B42231861EC9C3AE000929D3 /* AutoCompleteSearchVC.swift in Sources */,
 				B45095601EBAEC0B00139A2D /* PopAddSchedulePeriodVC.swift in Sources */,
 				B4AB5BC81EC328C400922A28 /* StringExtensions.swift in Sources */,
 				B45095781EBCA7E200139A2D /* PopChildrenProfileCreatedVC.swift in Sources */,
