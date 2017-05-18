@@ -10,6 +10,7 @@ import UIKit
 //import MapKit
 import GoogleMaps
 import CoreLocation
+import GooglePlaces
 
 class ChildrenLocationVC: UIViewController{
   
@@ -19,8 +20,11 @@ class ChildrenLocationVC: UIViewController{
     var currentZoom : Float = 0.0
     var mapView = GMSMapView()
     var locationManager = CLLocationManager()
-    var userLatitude = CLLocationDegrees()
-    var userLongitude = CLLocationDegrees()
+//    var userLatitude = CLLocationDegrees()
+//    var userLongitude = CLLocationDegrees()
+    
+   
+    
     
     let planoColor = UIColor(red: 104.0/255.0, green: 206.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     let safeArea = UIImage(named: "safeArea")! as UIImage;
@@ -29,7 +33,9 @@ class ChildrenLocationVC: UIViewController{
     @IBOutlet weak var btn550m: UIButton!
     @IBOutlet weak var btnOneK: UIButton!
     
-    @IBOutlet weak var lblLocation: UILabel!
+    @IBOutlet weak var lblLocationTitle: UILabel!
+    @IBOutlet weak var lblLocationAddress: UILabel!
+    
     @IBOutlet weak var viewGoogleMap: UIView!
     @IBOutlet weak var imgPinCenter: UIImageView!
     
@@ -49,7 +55,7 @@ class ChildrenLocationVC: UIViewController{
         
         currentZoom = 15
 
-        self.lblLocation.text = "Please wait while fetching address"
+        self.lblLocationAddress.text = "Please wait while fetching address"
         mapView.delegate = self
         mapView.isMyLocationEnabled = true   // for current location enable
         mapView.settings.myLocationButton = true // current location btn
@@ -81,10 +87,8 @@ class ChildrenLocationVC: UIViewController{
 
         UIView.animate(withDuration: 0.3, animations: {
             self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-(self.imgPinCenter.frame.size.height/2))
-//            self.imgPinCenter.center = CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y-100)
         })
 
-        
     }
     
     func getAddressForMapCenter() {
@@ -127,7 +131,7 @@ class ChildrenLocationVC: UIViewController{
                     if (strAddresMain.length > 0) {
                         print("strAddresMain : \(strAddresMain)")
                         
-                        self.lblLocation.text = strAddresMain
+                        self.lblLocationAddress.text = strAddresMain
                         
                         var strSubTitle = ""
                         if let locality = address.locality {
@@ -162,17 +166,17 @@ class ChildrenLocationVC: UIViewController{
                     }
                     else {
                         print("Location address not found")
-                        self.lblLocation.text = "Location address not found"
+                        self.lblLocationAddress.text = "Location address not found"
                     }
                 }
                 else {
-                    self.lblLocation.text = "Please change location, address is not available"
+                    self.lblLocationAddress.text = "Please change location, address is not available"
                     
                     print("Please change location, address is not available")
                 }
             }
             else {
-                self.lblLocation.text  = "Address is not available"
+                self.lblLocationAddress.text  = "Address is not available"
                 
                 print("Address is not available")
             }
@@ -189,8 +193,7 @@ class ChildrenLocationVC: UIViewController{
     }
     
     func addMarkerOnGoogleMap(_ title: String, subTitle: String, location: CLLocation) {
-        //update title
-        //        var titleMain = (title.length > 20) ? ("\(title.substring(to: 20))") : title
+     
         let position : CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         markerLocation = GMSMarker(position: position)
         markerLocation?.title  = title
@@ -225,13 +228,15 @@ class ChildrenLocationVC: UIViewController{
     }
     
     @IBAction func btnAutoSearchClick(_ sender: Any) {
-        
-        func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "gSearch" {
-                let sendingVC: AutoCompleteSearchVC = segue.destination as! AutoCompleteSearchVC
-//                sendingVC.period_delegate = self
-            }
-        }
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+//        func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//            if segue.identifier == "gSearch" {
+//                let sendingVC: AutoCompleteSearchVC = segue.destination as! AutoCompleteSearchVC
+////                sendingVC.period_delegate = self
+//            }
+//        }
     }
     
     @IBAction func btn550mClick(_ sender: Any) {
@@ -366,22 +371,7 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
         }
         
     }
-
-        
-        /*
-        if status == .authorizedWhenInUse {
-            
-            // 4
-            locationManager.startUpdatingLocation()
-            
-            //5
-            mapView.isMyLocationEnabled = true
-            mapView.settings.myLocationButton = true
-        }
- */
-//    }
     
-    // 6
     private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             
@@ -395,3 +385,50 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
     }
 }
 
+extension ChildrenLocationVC: GMSAutocompleteViewControllerDelegate {
+    
+    // Handle the user's selection.
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Place name: \(place.name)")
+        print("Place address: \(place.formattedAddress)")
+        print("Place attributions: \(place.attributions)")
+        
+        self.lblLocationTitle.isHidden = false
+        
+//        self.searchViewHeight.constant = self.locationTitleHeight.constant + self.locationAddressHeight.constant + 50
+        
+        self.lblLocationTitle.text = place.name
+        self.lblLocationAddress.text = place.formattedAddress
+        print("\(self.lblLocationTitle.text)")
+        
+        /*
+         Place name: Sule Pagoda
+         Place address
+         */
+        self.mapView.camera = GMSCameraPosition(target: place.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        self.locationManager.stopUpdatingLocation()
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    // User canceled the operation.
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+}

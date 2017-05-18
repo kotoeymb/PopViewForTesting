@@ -8,17 +8,18 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+    private let GOOGLE_API_KEY = "AIzaSyCq1dnM74DznXgIyuUBRUGOv-g2_-WiT0c"
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
             //You have to add API key to use sdk
-        GMSServices.provideAPIKey("AIzaSyCq1dnM74DznXgIyuUBRUGOv-g2_-WiT0c")
-        
+        GMSServices.provideAPIKey(GOOGLE_API_KEY)
+        GMSPlacesClient.provideAPIKey(GOOGLE_API_KEY)
         return true
     }
 
