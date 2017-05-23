@@ -65,15 +65,9 @@ class ChildrenLocationVC: UIViewController{
         mapView.settings.myLocationButton = true // current location btn
         mapView.settings.compassButton = true  // compass
         mapView.isIndoorEnabled = false
-//        viewGoogleMap.addSubview(mapView)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0) {
-//            let points : CGRect =  CGRect(origin: mapView.center.x, size: mapView.center.y-20)
-//            self.mapView.frame = mapView.points
-//            self.view.layoutIfNeeded()
-//        }
         
         UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-20)// -(self.imgPinCenter.frame.size.height/2))
+            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-30)// -(self.imgPinCenter.frame.size.height/2))
         })
         self.getAddressForMapCenter()
         
@@ -87,20 +81,19 @@ class ChildrenLocationVC: UIViewController{
         super.viewDidAppear(animated)
         
         UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-20)
+            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-30)
         })
 
     }
     
     func getAddressForMapCenter() {
         
-//        let point : CGPoint =  CGPoint(x: self.mapView.center.x, y: self.mapView.center.y)// -(self.imgPinCenter.frame.size.height))
-       let point : CGPoint =  CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)
-//        mapView.center
+       let point : CGPoint =  CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-30)
         // CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y)
         let coordinate : CLLocationCoordinate2D = mapView.projection.coordinate(for: point)
         let location =  CLLocation.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
         self.GetAnnotationUsingCoordinated(location)
+        
         print("\(location)")
     }
     
@@ -196,6 +189,24 @@ class ChildrenLocationVC: UIViewController{
         }
     }
     
+    func addGMSCameraPosition(_ latitude: CLLocationDegrees,_ longitude: CLLocationDegrees,_ zoom: Float) {
+        
+        if( isButtonClicked == true){
+        
+            UIView.animate(withDuration: 0.3, animations: {
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-30)
+            })
+        
+        }else{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-30)
+            })
+        }
+    let cameras : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: zoom)
+        
+        mapView.camera = cameras
+        
+    }
     func addPin_with_Title(_ title: String, subTitle: String, location : CLLocation) {
         
         if markerLocation == nil {
@@ -219,7 +230,7 @@ class ChildrenLocationVC: UIViewController{
 
    // For Button Click Event
     @IBAction func btn350mClick(_ sender: Any) {
-        
+        isButtonClicked = true
         imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
         btn350m.backgroundColor = planoColor
         btn350m.setTitleColor(UIColor.white, for: UIControlState.normal)
@@ -230,17 +241,9 @@ class ChildrenLocationVC: UIViewController{
         btnOneK.backgroundColor = UIColor.white
         btnOneK.setTitleColor(planoColor, for: UIControlState.normal)
         
-        let point : CGPoint = mapView.center
-        let coordinate : CLLocationCoordinate2D = mapView.projection.coordinate(for: point)
         currentZoom = 15;
-        //        if((sender as! UIButton).tag == 0) {
-        //            print("btnZoominClicked")
-        //        }
-        UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)// -(self.imgPinCenter.frame.size.height/2))
-        })
-        let camera : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: currentZoom)
-        mapView.camera = camera
+
+        addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
     }
     
     @IBAction func btnAutoSearchClick(_ sender: Any) {
@@ -261,21 +264,15 @@ class ChildrenLocationVC: UIViewController{
         
         btnOneK.backgroundColor = UIColor.white
         btnOneK.setTitleColor(planoColor, for: UIControlState.normal)
-        
-//        let point : CGPoint = mapView.center
-//        let coordinate : CLLocationCoordinate2D = mapView.projection.coordinate(for: point)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)
-        })
         currentZoom = 14;
-        mapView.camera = GMSCameraPosition(target: mapPostion.target, zoom: currentZoom, bearing: 0, viewingAngle: 0)
-//        let camera : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: currentZoom)
-//        mapView.camera = camera
+        
+        addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
+        
     }
     
     @IBAction func btnOneKClick(_ sender: Any) {
         
-        
+        isButtonClicked = true
         btnOneK.backgroundColor = planoColor
         btnOneK.setTitleColor(UIColor.white, for: UIControlState.normal)
         
@@ -285,20 +282,9 @@ class ChildrenLocationVC: UIViewController{
         btn350m.backgroundColor = UIColor.white
         btn350m.setTitleColor(planoColor, for: UIControlState.normal)
        
-//        let point : CGPoint = mapView.center
-//        let point : CGPoint =  CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)
-//        let coordinate : CLLocationCoordinate2D = mapView.projection.coordinate(for: point)
         imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
         currentZoom = 13;
-        imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-20)// -(self.imgPinCenter.frame.size.height/2))
-//        })
-       
-//        mapView.camera = mapPostion
-        mapView.camera = GMSCameraPosition(target: mapPostion.target, zoom: currentZoom, bearing: 0, viewingAngle: 0)
-//        let camera : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: currentZoom)
-//        mapView.camera = camera
+        addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
     }
     
     @IBAction func btnSave(_ sender: Any) {
@@ -320,8 +306,8 @@ extension ChildrenLocationVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         //print("didChangeCameraPosition: \(position)")
         mapView.clear()
-//      markerLocation?.map = mapView
-         self.getAddressForMapCenter()
+        markerLocation?.map = mapView
+        self.getAddressForMapCenter()
        
     }
     
@@ -330,20 +316,10 @@ extension ChildrenLocationVC : GMSMapViewDelegate {
 //        self.getAddressForMapCenter()
 //        reverseGeocodeCoordinate(position.target)
         print("idle Map View")
-        
-        if(isButtonClicked == true){
-            UIView.animate(withDuration: 0.3, animations: {
-                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)// -(self.imgPinCenter.frame.size.height/2))
-            })
-        }else if(isButtonClicked == false){
-        UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-20)// -(self.imgPinCenter.frame.size.height/2))
-        })
-        }
         mapView.settings.zoomGestures = false
         
         mapPostion = GMSCameraPosition(target: position.target, zoom: currentZoom, bearing: 0, viewingAngle: 0)
-        mapView.camera = mapPostion
+        addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
     }
     func mapView(mapView: GMSMapView!, didChangeCameraPosition position: GMSCameraPosition!) {
         print("\(position.target.latitude) \(position.target.longitude)")
@@ -357,17 +333,10 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
     func locationManager( _ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         if let location = locations.first {
-            if(isButtonClicked == true){
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)// -(self.imgPinCenter.frame.size.height/2))
-                })
-            }else if(isButtonClicked == false){
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-20)// -(self.imgPinCenter.frame.size.height/2))
-                })
-            }
-            mapPostion = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-            mapView.camera = mapPostion
+
+            mapPostion = GMSCameraPosition(target: location.coordinate, zoom: currentZoom, bearing: 0, viewingAngle: 0)
+            
+            addGMSCameraPosition(location.coordinate.latitude, location.coordinate.longitude , currentZoom)
             
             locationManager.stopUpdatingLocation()
             
@@ -402,14 +371,6 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
         
     }
     
-//    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if let location = locations.first {
-//            
-//            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-//            locationManager.stopUpdatingLocation()
-//        }
-//        
-//    }
 }
 
 extension ChildrenLocationVC: GMSAutocompleteViewControllerDelegate {
@@ -429,18 +390,10 @@ extension ChildrenLocationVC: GMSAutocompleteViewControllerDelegate {
         }
         print("\(self.lblLocationTitle.text)")
         
-        if(isButtonClicked == true){
-            UIView.animate(withDuration: 0.3, animations: {
-                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-20)// -(self.imgPinCenter.frame.size.height/2))
-            })
-        }else if(isButtonClicked == false){
-            UIView.animate(withDuration: 0.3, animations: {
-                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-20)// -(self.imgPinCenter.frame.size.height/2))
-            })
-        }
         mapPostion = GMSCameraPosition(target: place.coordinate, zoom: currentZoom, bearing: 0, viewingAngle: 0)
-        mapView.camera = mapPostion //  GMSCameraPosition(target: place.coordinate, zoom: currentZoom, bearing: 0, viewingAngle: 0)
-        
+
+        addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
+    
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
