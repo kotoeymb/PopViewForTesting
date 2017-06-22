@@ -7,21 +7,30 @@
 //
 
 import UIKit
-//import MapKit
 import GoogleMaps
 import CoreLocation
 import GooglePlaces
 
+
+protocol userLocationMapDelegate: class {
+    func didRecieveMapData(_ boundaryName:String,_ userMapPosition : CLLocationCoordinate2D,_ placeID:String,_ Address:String,_ AddressTitle:String ,_ description:String , _ boundarySize:String )
+}
+
 class ChildrenLocationVC: UIViewController{
+   
+    var placesClient: GMSPlacesClient!
+    var userPlace:GMSPlace!
     
+    var userBoundarySize : String = ""
     var isButtonClicked : Bool = false
     var mapPostion : GMSCameraPosition!
     var isPlaceTitle : Bool = false
     var tempLbl : String!
     var currentlocation : CLLocation!
     var markerLocation : GMSMarker?
+    
     var currentZoom : Float = 0.0
-//    var mapView = GMSMapView()
+    
     var locationManager = CLLocationManager()
     var userLatitude = CLLocationDegrees()
     var userLongitude = CLLocationDegrees()
@@ -34,21 +43,23 @@ class ChildrenLocationVC: UIViewController{
     @IBOutlet weak var btnOneK: UIButton!
    
     @IBOutlet weak var mapView: GMSMapView!
-   
+    @IBOutlet weak var viewMapView: UIView!
     
+    @IBOutlet weak var viewTextView: UIView!
+    @IBOutlet weak var viewSearchView: UIView!
     @IBOutlet weak var lblLocationTitle: UILabel!
     @IBOutlet weak var lblLocationAddress: UILabel!
-//    @IBOutlet weak var viewGoogleMap: UIView!
     @IBOutlet weak var imgPinCenter: UIImageView!
     
     @IBOutlet weak var imgPinOverlay: UIImageView!
+    var mapdelegate: userLocationMapDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        placesClient = GMSPlacesClient.shared()
         locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-      
+        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.startUpdatingLocation()
@@ -59,37 +70,77 @@ class ChildrenLocationVC: UIViewController{
         
         lblLocationAddress.lineBreakMode = .byWordWrapping
         lblLocationAddress.numberOfLines = 0
-        
+        viewSearchView.superview?.bringSubview(toFront: viewSearchView)
+        viewTextView.superview?.bringSubview(toFront: viewTextView)
+ 
         mapView.delegate = self
         mapView.isMyLocationEnabled = true   // for current location enable
         mapView.settings.myLocationButton = true // current location btn
         mapView.settings.compassButton = true  // compass
         mapView.isIndoorEnabled = false
+        mapView.backgroundColor = UIColor.clear
         
-        UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-30)// -(self.imgPinCenter.frame.size.height/2))
-        })
+        
+        if(isButtonClicked == true){
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y)
+            })
+            
+        }else{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2))
+            })
+        }
         self.getAddressForMapCenter()
         
-    }
     
+        
+        
+    }
+    func getplaceID(){
+        placesClient.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
+            if let error = error {
+                print("Pick Place error: \(error.localizedDescription)")
+                return
+            }
+            
+                    if let placeLikelihoodList = placeLikelihoodList {
+                let place = placeLikelihoodList.likelihoods.first?.place
+                if let place = place {
+                    //                    self.nameLabel.text = place.name
+                    //                    self.addressLabel.text = place.formattedAddress?.components(separatedBy: ", ")
+                    //                        .joined(separator: "\n")
+                    print(place.placeID)
+                   self.userPlace = place
+                }
+            }
+        })
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-30)
-        })
+        if(isButtonClicked == true){
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y)
+            })
+            
+        }else{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2))
+            })
+        }
 
     }
     
     func getAddressForMapCenter() {
         
-       let point : CGPoint =  CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-30)
-        // CGPoint(x: self.viewGoogleMap.center.x, y: self.viewGoogleMap.center.y)
+       let point : CGPoint =  CGPoint(x: self.mapView.center.x, y: self.mapView.center.y)
         let coordinate : CLLocationCoordinate2D = mapView.projection.coordinate(for: point)
         let location =  CLLocation.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
         self.GetAnnotationUsingCoordinated(location)
@@ -101,7 +152,6 @@ class ChildrenLocationVC: UIViewController{
     func GetAnnotationUsingCoordinated(_ location : CLLocation) {
        
         GMSGeocoder().reverseGeocodeCoordinate(location.coordinate) { (response, error) in
-//            self.imgPinCenter.isHidden = true
             var strAddresMain : String = ""
             
             if let address : GMSAddress = response?.firstResult() {
@@ -191,45 +241,57 @@ class ChildrenLocationVC: UIViewController{
     
     func addGMSCameraPosition(_ latitude: CLLocationDegrees,_ longitude: CLLocationDegrees,_ zoom: Float) {
         
-        if( isButtonClicked == true){
+        if(isButtonClicked == true){
         
             UIView.animate(withDuration: 0.3, animations: {
-                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-30)
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y)
             })
         
         }else{
             UIView.animate(withDuration: 0.3, animations: {
-                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2)-30)
+                self.imgPinCenter.center = CGPoint(x: self.mapView.center.x, y: self.mapView.center.y-(self.imgPinCenter.frame.size.height/2))
             })
         }
-    let cameras : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: zoom)
+        
+        let cameras : GMSCameraPosition = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: zoom)
         
         mapView.camera = cameras
         
+        
     }
+   
     func addPin_with_Title(_ title: String, subTitle: String, location : CLLocation) {
         
         if markerLocation == nil {
-            markerLocation = GMSMarker.init()//GMSMarker.init(position: location.coordinate)
+            markerLocation = GMSMarker.init() //GMSMarker.init(position: location.coordinate)
         }
-//        add Marker on google map
-//        self.addMarkerOnGoogleMap(title, subTitle: subTitle, location: location)
     }
     
-    func addMarkerOnGoogleMap(_ title: String, subTitle: String, location: CLLocation) {
-        //update title
-        //        var titleMain = (title.length > 20) ? ("\(title.substring(to: 20))") : title
-        let position : CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-        markerLocation = GMSMarker(position: position)
-        markerLocation?.title  = title
-        markerLocation?.snippet = subTitle
-        markerLocation?.icon = #imageLiteral(resourceName: "iconPin")
-        mapView.clear()
-        markerLocation?.map = mapView
+//    func addMarkerOnGoogleMap(_ title: String, subTitle: String, location: CLLocation) {
+//        //update title
+//        //        var titleMain = (title.length > 20) ? ("\(title.substring(to: 20))") : title
+//        let position : CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+//        markerLocation = GMSMarker(position: position)
+//        markerLocation?.title  = title
+//        markerLocation?.snippet = subTitle
+////        markerLocation?.icon = #imageLiteral(resourceName: "iconPin")
+//        mapView.clear()
+////        markerLocation?.position
+//        
+//        markerLocation?.map = mapView
+//    }
+    
+    @IBAction func btnAutoSearchClick(_ sender: Any) {
+        
+        isPlaceTitle = true
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+        
     }
-
-   // For Button Click Event
+   
     @IBAction func btn350mClick(_ sender: Any) {
+        userBoundarySize = "350 m"
         isButtonClicked = true
         imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
         btn350m.backgroundColor = planoColor
@@ -242,18 +304,12 @@ class ChildrenLocationVC: UIViewController{
         btnOneK.setTitleColor(planoColor, for: UIControlState.normal)
         
         currentZoom = 15;
-
         addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
     }
     
-    @IBAction func btnAutoSearchClick(_ sender: Any) {
-        isPlaceTitle = true
-        let autocompleteController = GMSAutocompleteViewController()
-        autocompleteController.delegate = self
-        present(autocompleteController, animated: true, completion: nil)
-        
-    }
+
     @IBAction func btn550mClick(_ sender: Any) {
+       userBoundarySize = "550 m"
         imgPinCenter.image = #imageLiteral(resourceName: "safeArea")
         isButtonClicked = true
         btn550m.backgroundColor = planoColor
@@ -271,7 +327,7 @@ class ChildrenLocationVC: UIViewController{
     }
     
     @IBAction func btnOneKClick(_ sender: Any) {
-        
+        userBoundarySize = "1 km"
         isButtonClicked = true
         btnOneK.backgroundColor = planoColor
         btnOneK.setTitleColor(UIColor.white, for: UIControlState.normal)
@@ -287,10 +343,18 @@ class ChildrenLocationVC: UIViewController{
         addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
     }
     
-    @IBAction func btnSave(_ sender: Any) {
-         self.mapView.settings.myLocationButton = true
-
+    @IBAction func btnSave(_ sender: Any){
+//        CLLocationCoordinate2D,_ placeID:String,_ Address:String,_ description:String ,  _ boundarySize:String
+        if(mapdelegate != nil){
+            mapdelegate?.didRecieveMapData("TestName", mapPostion.target , userPlace.placeID, userPlace.formattedAddress!, userPlace.description,userBoundarySize,"")
+//       _ boundaryName:String,_ userMapPosition : CLLocationCoordinate2D,_ placeID:String,_ Address:String,_ AddressTitle:String ,_ description:String , _ boundarySize:String
+           self.navigationController?.popViewController(animated: true)
+            
+        }
+//    self.navigationController?.popViewController(animated: true)
+       
     }
+    
     @IBAction func btnCancel(_ sender: Any) {
           self.navigationController?.popViewController(animated: true)
 //        self.dismiss(animated: true, completion: nil)
@@ -304,27 +368,28 @@ class ChildrenLocationVC: UIViewController{
 
 extension ChildrenLocationVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        //print("didChangeCameraPosition: \(position)")
         mapView.clear()
         markerLocation?.map = mapView
-        self.getAddressForMapCenter()
        
     }
-    
+   
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        
-//        self.getAddressForMapCenter()
-//        reverseGeocodeCoordinate(position.target)
-        print("idle Map View")
+       
+        self.getAddressForMapCenter()
         mapView.settings.zoomGestures = false
-        
+        mapView.settings.rotateGestures = false
+        getplaceID()
         mapPostion = GMSCameraPosition(target: position.target, zoom: currentZoom, bearing: 0, viewingAngle: 0)
+//        print("Place ID \(mapPostion.)")
         addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
+  
     }
+    
     func mapView(mapView: GMSMapView!, didChangeCameraPosition position: GMSCameraPosition!) {
         print("\(position.target.latitude) \(position.target.longitude)")
-        
+//        markerLocation.position = position.target
     }
+ 
     
 }
 
@@ -336,11 +401,14 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
 
             mapPostion = GMSCameraPosition(target: location.coordinate, zoom: currentZoom, bearing: 0, viewingAngle: 0)
             
+            
             addGMSCameraPosition(location.coordinate.latitude, location.coordinate.longitude , currentZoom)
             
+//            let overlay = GMSGroundOverlay(position: location.coordinate, icon: #imageLiteral(resourceName: "iconPin"), zoomLevel: 15)
+//            overlay.map = mapView
             locationManager.stopUpdatingLocation()
-            
         }
+        
     }
        // 2
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -372,14 +440,13 @@ extension ChildrenLocationVC: CLLocationManagerDelegate {
     }
     
 }
-
 extension ChildrenLocationVC: GMSAutocompleteViewControllerDelegate {
-    
-    // Handle the user's selection.
+       // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")
+        print("Place\(place.placeID)")
         dismiss(animated: true, completion: nil)
         
         self.lblLocationTitle.text = place.name
@@ -390,12 +457,10 @@ extension ChildrenLocationVC: GMSAutocompleteViewControllerDelegate {
         }
         print("\(self.lblLocationTitle.text)")
         
-        mapPostion = GMSCameraPosition(target: place.coordinate, zoom: currentZoom, bearing: 0, viewingAngle: 0)
-
+        mapPostion = GMSCameraPosition(target: place.coordinate , zoom: currentZoom, bearing: 0, viewingAngle: 0)
         addGMSCameraPosition(mapPostion.target.latitude, mapPostion.target.longitude , currentZoom)
-    
+
     }
-    
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
         // TODO: handle the error.
         print("Error: ", error.localizedDescription)
@@ -414,5 +479,7 @@ extension ChildrenLocationVC: GMSAutocompleteViewControllerDelegate {
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
-    
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        print("ksjalfsjkdf")
+    }
 }

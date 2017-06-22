@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		785D3166845532CB1BAAF1EA /* libPods-PopupViewPlano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B0D85BF5722FF70D3647B /* libPods-PopupViewPlano.a */; };
+		B40DC1D81EDC4CD700A1D8D5 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40DC1D71EDC4CD700A1D8D5 /* StringExtensions.swift */; };
 		B42231841EC9B476000929D3 /* LocationSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = B42231831EC9B476000929D3 /* LocationSearch.png */; };
+		B43552121EE16B7F007EBC73 /* PopupOrangeKeepBonusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43552111EE16B7F007EBC73 /* PopupOrangeKeepBonusVC.swift */; };
+		B43552141EE16CE4007EBC73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B43552131EE16CE4007EBC73 /* Assets.xcassets */; };
 		B450951F1EBAEA6D00139A2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B450951E1EBAEA6D00139A2D /* AppDelegate.swift */; };
 		B45095211EBAEA6D00139A2D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45095201EBAEA6D00139A2D /* ViewController.swift */; };
 		B45095241EBAEA6D00139A2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B45095221EBAEA6D00139A2D /* Main.storyboard */; };
-		B45095261EBAEA6D00139A2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B45095251EBAEA6D00139A2D /* Assets.xcassets */; };
 		B45095291EBAEA6D00139A2D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B45095271EBAEA6D00139A2D /* LaunchScreen.storyboard */; };
 		B45095431EBAEB7B00139A2D /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B45095311EBAEB7B00139A2D /* Raleway-Black.ttf */; };
 		B45095441EBAEB7B00139A2D /* Raleway-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B45095321EBAEB7B00139A2D /* Raleway-BlackItalic.ttf */; };
@@ -43,22 +45,23 @@
 		B45095741EBC9DBE00139A2D /* LOCATION1.png in Resources */ = {isa = PBXBuildFile; fileRef = B45095731EBC9DBE00139A2D /* LOCATION1.png */; };
 		B45095761EBC9DFF00139A2D /* PROFILE CREATED.png in Resources */ = {isa = PBXBuildFile; fileRef = B45095751EBC9DFF00139A2D /* PROFILE CREATED.png */; };
 		B45095781EBCA7E200139A2D /* PopChildrenProfileCreatedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45095771EBCA7E200139A2D /* PopChildrenProfileCreatedVC.swift */; };
-		B4531C2E1EC18373008CDAFF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4531C2D1EC18373008CDAFF /* MapKit.framework */; };
 		B47B15B01EBE50A800D2786D /* ChildrenLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47B15AF1EBE50A800D2786D /* ChildrenLocationVC.swift */; };
-		B4AB5BC81EC328C400922A28 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AB5BC71EC328C400922A28 /* StringExtensions.swift */; };
 		B4AB5BCA1EC4699A00922A28 /* plantoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AB5BC91EC4699A00922A28 /* plantoButton.swift */; };
+		B4DBB19F1EDC39B200D71DBA /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DBB19E1EDC39B200D71DBA /* CheckViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		073B0D85BF5722FF70D3647B /* libPods-PopupViewPlano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PopupViewPlano.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FC87F1F20A97A480D5D50F9 /* Pods-PopupViewPlano.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopupViewPlano.release.xcconfig"; path = "Pods/Target Support Files/Pods-PopupViewPlano/Pods-PopupViewPlano.release.xcconfig"; sourceTree = "<group>"; };
 		9B3A6BD4B65D56807163E8F3 /* Pods-PopupViewPlano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopupViewPlano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PopupViewPlano/Pods-PopupViewPlano.debug.xcconfig"; sourceTree = "<group>"; };
+		B40DC1D71EDC4CD700A1D8D5 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		B42231831EC9B476000929D3 /* LocationSearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocationSearch.png; sourceTree = "<group>"; };
+		B43552111EE16B7F007EBC73 /* PopupOrangeKeepBonusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupOrangeKeepBonusVC.swift; sourceTree = "<group>"; };
+		B43552131EE16CE4007EBC73 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B450951B1EBAEA6D00139A2D /* PopupViewPlano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopupViewPlano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B450951E1EBAEA6D00139A2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B45095201EBAEA6D00139A2D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B45095231EBAEA6D00139A2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B45095251EBAEA6D00139A2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B45095281EBAEA6D00139A2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B450952A1EBAEA6D00139A2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B45095311EBAEB7B00139A2D /* Raleway-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Black.ttf"; sourceTree = "<group>"; };
@@ -93,8 +96,8 @@
 		B4531C2D1EC18373008CDAFF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B47B15AF1EBE50A800D2786D /* ChildrenLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildrenLocationVC.swift; sourceTree = "<group>"; };
 		B4A2E1221EC1D37400F7470B /* OtherLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OtherLocation.gpx; sourceTree = "<group>"; };
-		B4AB5BC71EC328C400922A28 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		B4AB5BC91EC4699A00922A28 /* plantoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = plantoButton.swift; sourceTree = "<group>"; };
+		B4DBB19E1EDC39B200D71DBA /* CheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +105,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4531C2E1EC18373008CDAFF /* MapKit.framework in Frameworks */,
 				785D3166845532CB1BAAF1EA /* libPods-PopupViewPlano.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,20 +145,22 @@
 				B450951E1EBAEA6D00139A2D /* AppDelegate.swift */,
 				B45095201EBAEA6D00139A2D /* ViewController.swift */,
 				B45095221EBAEA6D00139A2D /* Main.storyboard */,
+				B43552111EE16B7F007EBC73 /* PopupOrangeKeepBonusVC.swift */,
 				B450955F1EBAEC0B00139A2D /* PopAddSchedulePeriodVC.swift */,
 				B45095691EBAF3D800139A2D /* PopScheduleDayVC.swift */,
 				B450956E1EBC992000139A2D /* PopChildrenProfileVC.swift */,
 				B45095771EBCA7E200139A2D /* PopChildrenProfileCreatedVC.swift */,
 				B47B15AF1EBE50A800D2786D /* ChildrenLocationVC.swift */,
-				B4AB5BC71EC328C400922A28 /* StringExtensions.swift */,
+				B4DBB19E1EDC39B200D71DBA /* CheckViewController.swift */,
+				B40DC1D71EDC4CD700A1D8D5 /* StringExtensions.swift */,
 				B4AB5BC91EC4699A00922A28 /* plantoButton.swift */,
 				B4A2E1221EC1D37400F7470B /* OtherLocation.gpx */,
 				B42231831EC9B476000929D3 /* LocationSearch.png */,
 				B45095731EBC9DBE00139A2D /* LOCATION1.png */,
 				B45095751EBC9DFF00139A2D /* PROFILE CREATED.png */,
 				B450956D1EBB227000139A2D /* popTableCell */,
-				B45095251EBAEA6D00139A2D /* Assets.xcassets */,
 				B45095721EBC9B7C00139A2D /* bgPicture */,
+				B43552131EE16CE4007EBC73 /* Assets.xcassets */,
 				B45095301EBAEB7B00139A2D /* RalewayFonts */,
 				B45095271EBAEA6D00139A2D /* LaunchScreen.storyboard */,
 				B450952A1EBAEA6D00139A2D /* Info.plist */,
@@ -255,8 +259,11 @@
 						DevelopmentTeam = F58NGPB4LE;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
-							com.apple.Maps.iOS = {
+							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
 							};
 						};
 					};
@@ -304,13 +311,13 @@
 				B45095541EBAEB7B00139A2D /* Raleway-ThinItalic.ttf in Resources */,
 				B45095511EBAEB7B00139A2D /* Raleway-SemiBold.ttf in Resources */,
 				B45095461EBAEB7B00139A2D /* Raleway-BoldItalic.ttf in Resources */,
-				B45095261EBAEA6D00139A2D /* Assets.xcassets in Resources */,
 				B45095441EBAEB7B00139A2D /* Raleway-BlackItalic.ttf in Resources */,
 				B450954C1EBAEB7B00139A2D /* Raleway-Light.ttf in Resources */,
 				B45095241EBAEA6D00139A2D /* Main.storyboard in Resources */,
 				B450954F1EBAEB7B00139A2D /* Raleway-MediumItalic.ttf in Resources */,
 				B450955C1EBAEBB600139A2D /* EDIT.png in Resources */,
 				B450954B1EBAEB7B00139A2D /* Raleway-Italic.ttf in Resources */,
+				B43552141EE16CE4007EBC73 /* Assets.xcassets in Resources */,
 				B45095481EBAEB7B00139A2D /* Raleway-ExtraBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,13 +380,15 @@
 				B4AB5BCA1EC4699A00922A28 /* plantoButton.swift in Sources */,
 				B450956F1EBC992000139A2D /* PopChildrenProfileVC.swift in Sources */,
 				B45095601EBAEC0B00139A2D /* PopAddSchedulePeriodVC.swift in Sources */,
-				B4AB5BC81EC328C400922A28 /* StringExtensions.swift in Sources */,
 				B45095781EBCA7E200139A2D /* PopChildrenProfileCreatedVC.swift in Sources */,
 				B45095211EBAEA6D00139A2D /* ViewController.swift in Sources */,
 				B450956A1EBAF3D800139A2D /* PopScheduleDayVC.swift in Sources */,
 				B47B15B01EBE50A800D2786D /* ChildrenLocationVC.swift in Sources */,
 				B450951F1EBAEA6D00139A2D /* AppDelegate.swift in Sources */,
+				B4DBB19F1EDC39B200D71DBA /* CheckViewController.swift in Sources */,
+				B43552121EE16B7F007EBC73 /* PopupOrangeKeepBonusVC.swift in Sources */,
 				B45095661EBAF37500139A2D /* VKCheckbox.swift in Sources */,
+				B40DC1D81EDC4CD700A1D8D5 /* StringExtensions.swift in Sources */,
 				B450956C1EBAF53900139A2D /* PopDayTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

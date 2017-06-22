@@ -204,7 +204,7 @@ extension VKCheckbox
      */
     func setOn(_ on: Bool, animated: Bool)
     {
-        self.on = on
+//        self.on = on
         self.showCheckmark(on, animated: animated)
         
         if animated
@@ -235,7 +235,7 @@ extension VKCheckbox
 {
     @objc fileprivate func buttonDidSelected()
     {
-        self.setOn(!self.on, animated: true)
+//        self.setOn(!self.on, animated: true)
     }
     
     fileprivate func showCheckmark(_ show: Bool, animated: Bool)

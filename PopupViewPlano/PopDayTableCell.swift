@@ -15,13 +15,13 @@ class PopDayTableCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        checkbox.setOn(false,animated : true) 
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-        
         checkbox.checkboxValueChangedBlock = {
             isOn in
             print("Basic checkbox is \(isOn ? "ON" : "OFF")")
